@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
- <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐂</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%23050505'/><text x='50' y='68' text-anchor='middle' font-size='55' font-weight='bold' font-family='Arial' fill='%23D4AF37'>R</text></svg>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Ravshan • Tuychiev</title>
+  <title>Ravshanbek FX • Trade & Lifestyle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -63,11 +63,19 @@
     .story-dash { width: 2px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 2px; }
     .story-dash-fill { width: 100%; height: 0%; background: #D4AF37; border-radius: 2px; box-shadow: 0 0 10px #D4AF37; }
     
+    /* Chart Section */
+    .chart-section { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 12; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; width: 80%; max-width: 900px; }
+    .chart-container { background: rgba(8, 20, 42, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 24px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+    .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .chart-title { font-family: 'Italiana', serif; font-size: 24px; color: #D4AF37; }
+    .chart-badge { background: rgba(212, 175, 55, 0.2); color: #D4AF37; padding: 6px 14px; border-radius: 20px; font-size: 11px; letter-spacing: 1px; }
+    .tradingview-widget-container { height: 450px; border-radius: 12px; overflow: hidden; }
+    
+    /* Contact Section */
     .contact-section { position: fixed; bottom: 5%; left: 60px; right: 60px; z-index: 15; display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; opacity: 0; transition: opacity 0.6s ease; background: rgba(8, 20, 42, 0.4); backdrop-filter: blur(16px); border-radius: 32px; padding: 30px; border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.6); pointer-events: auto !important; }
     .contact-left { flex: 1; color: #fff; }
     .contact-left h2 { font-family: 'Italiana', serif; font-size: 48px; color: #D4AF37; margin-bottom: 10px; }
     .contact-desc { font-weight: 300; margin-bottom: 20px; color: #d1d5db; }
-    
     .social-cards { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
     .social-card-link { text-decoration: none; color: inherit; pointer-events: auto !important; cursor: pointer !important; transition: transform 0.4s ease; }
     .social-card-link:hover { transform: translateY(-5px); }
@@ -78,7 +86,6 @@
     .social-username { font-weight: 500; font-size: 15px; color: #ffffff; }
     .social-action { font-size: 12px; color: #D4AF37; font-weight: 400; transition: color 0.3s; }
     .social-card-link:hover .social-action { color: #fff; }
-    
     .contact-form { flex: 1; background: rgba(10, 20, 35, 0.5); backdrop-filter: blur(20px); border-radius: 24px; padding: 28px; border: 1px solid rgba(212, 175, 55, 0.35); display: flex; flex-direction: column; gap: 16px; }
     .contact-form input, .contact-form textarea { background: rgba(255,255,255,0.06); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 14px; color: white; font-family: 'Outfit', sans-serif; outline: none; transition: 0.2s; pointer-events: auto !important; }
     .contact-form input:focus, .contact-form textarea:focus { border-color: #D4AF37; box-shadow: 0 0 12px rgba(212,175,55,0.4); }
@@ -86,39 +93,45 @@
     .contact-form button:hover { background: #e5c158; box-shadow: 0 6px 20px rgba(212,175,55,0.7); }
     #form-status { font-size: 14px; margin-top: 8px; }
     
-        @media (max-width: 900px) {
+    /* Responsive */
+    @media (max-width: 900px) {
       .cinematic-container { padding: 0 20px 20px 20px; }
-      
       .main-header { padding: 15px 0; flex-wrap: wrap; gap: 10px; }
       .brand { font-size: 12px; letter-spacing: 3px; }
       .header-nav { gap: 12px; }
       .nav-link { font-size: 8px; letter-spacing: 1px; }
       .contact-btn { padding: 8px 16px; font-size: 8px; }
-      
       .slide-title { font-size: 48px !important; }
       .slide-desc { font-size: 14px !important; }
-      
       #slide-1 .slide-title { margin-left: 20px; }
       #slide-1 .col-1 { margin-left: 20px; width: 80%; max-width: 80%; }
       #slide-1 .col-2 { position: relative; left: 20px; width: 80%; max-width: 80%; margin-top: 15px; }
       #slide-1 .desc-row { flex-direction: column; }
-      
       #slide-2 .slide-title { margin-left: 20px; }
       #slide-2 .slide-desc { margin-left: 20px; width: 80%; max-width: 80%; }
       #slide-2-img { top: 70px; left: 20px; width: 120px; height: 120px; }
-      
       #slide-3 { left: 20px; width: 80%; max-width: 80%; }
       #slide-3 .slide-title { white-space: normal; }
-      
       #slide-4 { left: 20px; max-width: 80%; }
-      
       .grid-lines { left: 20px; right: 20px; width: calc(100% - 40px); }
-      
+      .chart-section { width: 95%; }
+      .tradingview-widget-container { height: 300px; }
+      .chart-title { font-size: 18px; }
       .contact-section { flex-direction: column; left: 20px; right: 20px; bottom: 2%; padding: 20px; gap: 20px; }
       .contact-left h2 { font-size: 32px; }
       .social-cards { flex-direction: column; }
       .social-card { min-width: auto; width: 100%; }
       .contact-form { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .slide-title { font-size: 36px !important; }
+      .slide-desc { font-size: 13px !important; }
+      .brand { font-size: 10px; letter-spacing: 2px; }
+      .header-nav { gap: 8px; }
+      .nav-link { font-size: 7px; }
+      .nav-dot { display: none; }
+      .contact-btn { padding: 6px 12px; font-size: 7px; }
+      .cursor-inner, .cursor-outer { display: none; }
     }
   </style>
 </head>
@@ -134,7 +147,7 @@
         <span class="nav-dot"></span>
         <a href="#slide-2" class="nav-link">Journal</a>
         <span class="nav-dot"></span>
-        <a href="#slide-3" class="nav-link">About</a>
+        <a href="#slide-3" class="nav-link">Chart</a>
         <span class="nav-dot"></span>
         <a href="#slide-4" class="nav-link">Contact</a>
       </nav>
@@ -157,6 +170,18 @@
       <h2 class="slide-title">Institutional<br>Edge</h2>
       <p class="slide-desc">I analyze market structure using Smart Money Concepts, identifying liquidity sweeps, BOS, CHoCH, Order Blocks, Fair Value Gaps, Premium & Discount zones to trade alongside institutional flow instead of retail emotion.</p>
     </div>
+
+    <!-- TradingView Chart Section -->
+    <div class="chart-section" id="chart-section">
+      <div class="chart-container">
+        <div class="chart-header">
+          <span class="chart-title">XAUUSD Live Chart</span>
+          <span class="chart-badge">Smart Money Concepts</span>
+        </div>
+        <div class="tradingview-widget-container" id="tv-chart"></div>
+      </div>
+    </div>
+
     <div class="slide" id="slide-3">
       <h2 class="slide-title">Risk Creates Freedom</h2>
       <p class="slide-desc">Every trade follows strict risk management. Capital preservation comes first. Consistent execution over time creates sustainable growth and long-term profitability.</p>
@@ -180,7 +205,7 @@
               </div>
             </div>
           </a>
-          <a href="https://youtube.com/@Ravshan_FX" target="_blank" rel="noopener noreferrer" class="social-card-link">
+          <a href="https://youtube.com/@RavshanFX" target="_blank" rel="noopener noreferrer" class="social-card-link">
             <div class="social-card">
               <span class="social-icon">▶️</span>
               <div class="social-info">
@@ -222,6 +247,9 @@
 
   <canvas id="webgl"></canvas>
 
+  <!-- TradingView Library -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
   <script type="importmap">
     { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/examples/jsm/loaders/GLTFLoader.js": "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js" } }
   </script>
@@ -241,6 +269,7 @@
     let sparkParticles;
     const sparkCount = 450, sparkData = [];
     const sizes = { width: window.innerWidth, height: window.innerHeight };
+    let chartLoaded = false;
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color('#050505');
@@ -348,6 +377,38 @@
     }
     loadModel();
 
+    // TradingView Chart Loader
+    function createTradingViewChart() {
+      if (document.getElementById('tv-chart').children.length > 0) return;
+      new TradingView.widget({
+        "container_id": "tv-chart",
+        "width": "100%",
+        "height": "100%",
+        "symbol": "OANDA:XAUUSD",
+        "interval": "60",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#08142A",
+        "enable_publishing": false,
+        "hide_side_toolbar": false,
+        "allow_symbol_change": false,
+        "save_image": false,
+        "studies": ["MASimple@tv-basicstudies", "RSI@tv-basicstudies"],
+        "overrides": {
+          "mainSeriesProperties.candleStyle.upColor": "#D4AF37",
+          "mainSeriesProperties.candleStyle.downColor": "#3B82F6",
+          "mainSeriesProperties.candleStyle.wickUpColor": "#D4AF37",
+          "mainSeriesProperties.candleStyle.wickDownColor": "#3B82F6",
+          "paneProperties.background": "#050505",
+          "paneProperties.vertGridProperties.color": "rgba(212,175,55,0.1)",
+          "paneProperties.horzGridProperties.color": "rgba(212,175,55,0.1)"
+        },
+        "loading_screen": { "backgroundColor": "#050505", "foregroundColor": "#D4AF37" }
+      });
+    }
+
     window.addEventListener('resize', ()=>{
       sizes.width=window.innerWidth; sizes.height=window.innerHeight;
       camera.aspect=sizes.width/sizes.height; camera.updateProjectionMatrix();
@@ -373,13 +434,25 @@
       if(s2){ const a=isActive(scroll,0.28,0.40); s2.classList.toggle('active',a); const img=document.getElementById('slide-2-img'); if(img) img.classList.toggle('active',a); }
       if(s3) s3.classList.toggle('active', isActive(scroll,0.56,0.68));
       if(s4) s4.classList.toggle('active', isActive(scroll,0.84,1.05));
+      
+      // Chart visibility
+      const chart=document.getElementById('chart-section'); 
+      if(chart) {
+        const chartVisible = (scroll > 0.42 && scroll < 0.60);
+        chart.style.opacity = chartVisible ? '1' : '0';
+        chart.style.pointerEvents = chartVisible ? 'auto' : 'none';
+        if (chartVisible && !chartLoaded) { createTradingViewChart(); chartLoaded = true; }
+      }
+      
+      // Contact visibility
       const cs=document.getElementById('contact-section'); if(cs) cs.style.opacity = scroll>0.88 ? '1' : '0';
     }
 
     function updateGridDots(scroll){ document.querySelectorAll('.grid-dot').forEach((d,i)=>{ const sy=(i*17)%80+10; let sp=90+(i*55)%180; if(i%2===0) sp=-sp; let y=sy+scroll*sp; y=((y%100)+100)%100; d.style.top=`${y}%`; }); }
 
     function setupNavigation(){
-      document.querySelectorAll('.nav-link').forEach((l,i)=>{ l.addEventListener('click',(e)=>{ e.preventDefault(); const t=[0.0,0.34,0.62,0.94]; window.scrollTo({top:(document.documentElement.scrollHeight-window.innerHeight)*t[i], behavior:'smooth'}); }); });
+      const targets=[0.0, 0.34, 0.51, 0.94];
+      document.querySelectorAll('.nav-link').forEach((l,i)=>{ l.addEventListener('click',(e)=>{ e.preventDefault(); window.scrollTo({top:(document.documentElement.scrollHeight-window.innerHeight)*targets[i], behavior:'smooth'}); }); });
     }
 
     function animate(){
